@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Negotiation Skills Self-Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon:#4D1434;
+    --maroon-dark:#3A0F27;
+    --pink:#903163;
+    --gray:#969FA7;
+    --rose:#B2324B;
+    --text:#3D3D3D;
+    --text-soft:#5A5A5A;
+    --bg:#ffffff;
+    --panel:#FBF8F9;
+    --border:#E7E1E4;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{font-family:'Lato',-apple-system,BlinkMacSystemFont,sans-serif;}
+
+  body{
+    background:#F1EDEF;
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:0 0 4rem;
+  }
+
+  .page{
+    width:100%;
+    max-width:760px;
+    background:var(--bg);
+    box-shadow:0 10px 40px -12px rgba(77,20,52,0.25);
+    min-height:100vh;
+  }
+
+  /* ---- Top tri-colour signature stripe, exactly as in the deck ---- */
+  .stripe{
+    display:flex;
+    height:10px;
+    width:100%;
+  }
+  .stripe span{flex:1;}
+  .stripe span:nth-child(1){background:var(--maroon);}
+  .stripe span:nth-child(2){background:var(--pink);}
+  .stripe span:nth-child(3){background:var(--gray);}
+
+  /* ---- Header banner ---- */
+  .banner{
+    background:var(--maroon);
+    color:#fff;
+    padding:2.4rem 2.75rem 2rem;
+  }
+  .banner h1{
+    font-size:1.9rem;
+    font-weight:900;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    line-height:1.25;
+  }
+  .banner p{
+    margin-top:0.85rem;
+    font-size:0.98rem;
+    line-height:1.55;
+    color:#E9D9E1;
+    max-width:56ch;
+  }
+
+  .content{padding:2.5rem 2.75rem 1rem;}
+
+  /* ---- Section title, echoing the deck's slide-title treatment ---- */
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    font-size:1.02rem;
+    font-weight:700;
+    color:var(--text);
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    margin:2.4rem 0 1.4rem;
+  }
+  .section-title::before{
+    content:"";
+    width:11px;
+    height:11px;
+    background:var(--pink);
+    flex-shrink:0;
+  }
+  .question-block{margin-bottom:2rem;}
+  .question-title{
+    font-weight:700;
+    font-size:1.05rem;
+    color:var(--text);
+    margin-bottom:1rem;
+    line-height:1.4;
+  }
+  .question-block > .question-title:first-child{margin-top:0;}
+
+  /* ---- Checkbox list, styled after the deck's square outline checkboxes ---- */
+  .check-options{display:flex;flex-direction:column;gap:0.9rem;}
+  label.check-option{
+    display:flex;
+    align-items:flex-start;
+    gap:1rem;
+    cursor:pointer;
+    padding:0.35rem 0;
+  }
+  label.check-option input[type="checkbox"]{
+    appearance:none;
+    -webkit-appearance:none;
+    width:22px;
+    height:22px;
+    border:2px solid var(--rose);
+    flex-shrink:0;
+    margin-top:2px;
+    cursor:pointer;
+    position:relative;
+    transition:background .15s ease;
+  }
+  label.check-option input[type="checkbox"]:checked{
+    background:var(--rose);
+  }
+  label.check-option input[type="checkbox"]:checked::after{
+    content:"";
+    position:absolute;
+    left:6px;
+    top:2px;
+    width:6px;
+    height:11px;
+    border:solid #fff;
+    border-width:0 2px 2px 0;
+    transform:rotate(40deg);
+  }
+  label.check-option span{
+    font-size:0.98rem;
+    line-height:1.5;
+    color:var(--text);
+    padding-top:1px;
+  }
+  label.check-option:hover span{color:var(--maroon);}
+
+  /* ---- Pill / box choices, styled after the deck's solid maroon answer boxes ---- */
+  .pill-options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0.85rem;
+  }
+  .pill-options.tf{grid-template-columns:1fr 1fr;max-width:340px;}
+  label.pill-option{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    border:2px solid var(--maroon);
+    border-radius:14px;
+    padding:1rem 1.1rem;
+    font-weight:700;
+    font-size:0.95rem;
+    color:var(--maroon);
+    background:#fff;
+    cursor:pointer;
+    line-height:1.4;
+    transition:background .15s ease, color .15s ease, transform .1s ease;
+  }
+  label.pill-option input{
+    position:absolute;
+    opacity:0;
+    pointer-events:none;
+  }
+  label.pill-option:hover{background:#F6ECF1;}
+  label.pill-option:has(input:checked){
+    background:var(--maroon);
+    color:#fff;
+  }
+
+  /* ---- Submit ---- */
+  button.btn-submit{
+    width:100%;
+    background:var(--maroon);
+    color:#fff;
+    border:none;
+    padding:1rem;
+    border-radius:8px;
+    font-weight:700;
+    font-size:1rem;
+    letter-spacing:0.02em;
+    text-transform:uppercase;
+    cursor:pointer;
+    margin:2.6rem 0 2.5rem;
+    transition:background .2s ease;
+  }
+  button.btn-submit:hover{background:var(--maroon-dark);}
+
+  /* ---- Results ---- */
+  .hidden{display:none;}
+  #results{padding:2.6rem 2.75rem 3rem;}
+
+  .score-badge{
+    display:inline-block;
+    background:var(--maroon);
+    color:#fff;
+    font-weight:900;
+    padding:0.55rem 1.3rem;
+    border-radius:999px;
+    margin-bottom:1.3rem;
+    font-size:1.05rem;
+    letter-spacing:0.02em;
+  }
+  .result-tier{
+    font-size:1.7rem;
+    font-weight:900;
+    color:var(--maroon);
+    text-transform:uppercase;
+    margin-bottom:0.9rem;
+  }
+  .result-desc{
+    color:var(--text-soft);
+    line-height:1.65;
+    margin-bottom:2.4rem;
+    font-size:1rem;
+    max-width:58ch;
+  }
+
+  .breakdown{margin-bottom:1rem;}
+  .breakdown-item{margin-bottom:1.3rem;}
+  .breakdown-label{
+    display:flex;
+    justify-content:space-between;
+    font-weight:700;
+    font-size:0.92rem;
+    margin-bottom:0.4rem;
+    color:var(--text);
+  }
+  .progress-bar{
+    height:10px;
+    background:var(--border);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    border-radius:999px;
+    width:0%;
+    transition:width .6s ease;
+  }
+  .progress-fill.prep{background:var(--maroon);}
+  .progress-fill.tactics{background:var(--pink);}
+  .progress-fill.value{background:var(--gray);}
+
+  .btn-reset{
+    margin-top:1.6rem;
+    background:transparent;
+    color:var(--maroon);
+    border:2px solid var(--maroon);
+    padding:0.7rem 1.4rem;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+    font-size:0.92rem;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    transition:background .15s ease, color .15s ease;
+  }
+  .btn-reset:hover{background:var(--maroon);color:#fff;}
+
+  @media (max-width:560px){
+    .banner{padding:2rem 1.5rem 1.6rem;}
+    .content, #results{padding-left:1.5rem;padding-right:1.5rem;}
+    .pill-options{grid-template-columns:1fr;}
+    .pill-options.tf{max-width:none;}
+    .banner h1{font-size:1.5rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="stripe"><span></span><span></span><span></span></div>
+
+  <!-- ASSESSMENT FORM -->
+  <div id="quiz-form">
+    <div class="banner">
+      <h1>Negotiation Skills Self-Assessment</h1>
+      <p>Evaluate your habits, experience, and strategy to discover your negotiation proficiency tier and areas for growth.</p>
+    </div>
+
+    <div class="content">
+      <form id="assessment">
+
+        <!-- SECTION 1 -->
+        <div class="section-title">Section 1 — Current Habits</div>
+        <div class="question-block">
+          <div class="question-title">How do you currently approach negotiation? <span style="font-weight:400;">(Select all that apply)</span></div>
+          <div class="check-options">
+            <label class="check-option"><input type="checkbox" name="q1" value="1" data-cat="prep"><span>Research comparable offers before negotiating</span></label>
+            <label class="check-option"><input type="checkbox" name="q1" value="1" data-cat="prep"><span>Establish a walk-away point in advance</span></label>
+            <label class="check-option"><input type="checkbox" name="q1" value="1" data-cat="tactics"><span>Feel comfortable making a counteroffer</span></label>
+            <label class="check-option"><input type="checkbox" name="q1" value="1" data-cat="value"><span>Ask questions to understand the other party's priorities</span></label>
+            <label class="check-option"><input type="checkbox" name="q1" value="1" data-cat="value"><span>Exchange concessions rather than giving something away immediately</span></label>
+          </div>
+        </div>
+
+        <!-- SECTION 2 -->
+        <div class="section-title">Section 2 — Experience &amp; Knowledge</div>
+        <div class="question-block">
+          <div class="question-title">Check all that apply</div>
+          <div class="check-options">
+            <label class="check-option"><input type="checkbox" name="q2" value="1" data-cat="tactics"><span>I have negotiated a salary, price, deadline, or responsibility before.</span></label>
+            <label class="check-option"><input type="checkbox" name="q2" value="1" data-cat="value"><span>I consider issues other than money when negotiating.</span></label>
+            <label class="check-option"><input type="checkbox" name="q2" value="1" data-cat="prep"><span>I know what BATNA means.</span></label>
+            <label class="check-option"><input type="checkbox" name="q2" value="1" data-cat="prep"><span>I prepare the exact language of my opening offer.</span></label>
+            <label class="check-option"><input type="checkbox" name="q2" value="0"><span>I become nervous when asking for more.</span></label>
+            <label class="check-option"><input type="checkbox" name="q2" value="0"><span>I usually accept the first reasonable offer.</span></label>
+          </div>
+        </div>
+
+        <!-- SECTION 3 -->
+        <div class="section-title">Section 3 — Knowledge Check</div>
+
+        <div class="question-block">
+          <div class="question-title">1. A successful negotiation requires one side to lose.</div>
+          <div class="pill-options tf">
+            <label class="pill-option"><input type="radio" name="q3_1" value="0">True</label>
+            <label class="pill-option"><input type="radio" name="q3_1" value="1" data-cat="tactics">False</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <div class="question-title">2. The first number mentioned can influence the rest of the negotiation.</div>
+          <div class="pill-options tf">
+            <label class="pill-option"><input type="radio" name="q3_2" value="1" data-cat="tactics">True</label>
+            <label class="pill-option"><input type="radio" name="q3_2" value="0">False</label>
+          </div>
+        </div>
+
+        <div class="question-block">
+          <div class="question-title">3. The best amount you can obtain if negotiations fail (BATNA) and the minimum amount you are ready to accept mean the same thing.</div>
+          <div class="pill-options tf">
+            <label class="pill-option"><input type="radio" name="q3_3" value="0">True</label>
+            <label class="pill-option"><input type="radio" name="q3_3" value="1" data-cat="value">False</label>
+          </div>
+        </div>
+
+        <!-- SECTION 4 -->
+        <div class="section-title">Section 4 — Decision Scenario</div>
+        <div class="question-block">
+          <div class="question-title">You receive a job offer for $62,000, but research shows comparable positions pay $66,000–$72,000. Which option do you choose?</div>
+          <div class="pill-options">
+            <label class="pill-option"><input type="radio" name="q4" value="0">A. "I accept. Thank you very much."</label>
+            <label class="pill-option"><input type="radio" name="q4" value="1" data-cat="tactics">B. "The salary is too low. You need to offer more."</label>
+            <label class="pill-option"><input type="radio" name="q4" value="3" data-cat="prep">C. Prepare a counteroffer given comparables</label>
+            <label class="pill-option"><input type="radio" name="q4" value="1" data-cat="tactics">D. "If you cannot offer $70,000, I will decline."</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Calculate My Score</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- RESULTS PAGE -->
+  <div id="results" class="hidden">
+    <div class="banner">
+      <h1>Your Results</h1>
+      <p>Here's how your habits, knowledge, and instincts stack up.</p>
+    </div>
+    <div id="results-content">
+      <div class="score-badge">Total Score: <span id="score-val">0</span> / 15</div>
+      <div class="result-tier" id="tier-title">Calculating...</div>
+      <div class="result-desc" id="tier-desc">...</div>
+
+      <div class="section-title" style="margin-top:0;">Sub-Skill Breakdown</div>
+      <div class="breakdown">
+        <div class="breakdown-item">
+          <div class="breakdown-label">
+            <span>Preparation &amp; Research</span>
+            <span id="prep-score">0 / 5</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill prep" id="prep-bar"></div></div>
+        </div>
+
+        <div class="breakdown-item">
+          <div class="breakdown-label">
+            <span>Tactical Execution &amp; Mindset</span>
+            <span id="tactics-score">0 / 5</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill tactics" id="tactics-bar"></div></div>
+        </div>
+
+        <div class="breakdown-item">
+          <div class="breakdown-label">
+            <span>Value Creation &amp; Flexibility</span>
+            <span id="value-score">0 / 5</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill value" id="value-bar"></div></div>
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetForm()">Retake Assessment</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('assessment').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let totalScore = 0;
+    let categories = { prep: 0, tactics: 0, value: 0 };
+
+    const inputs = document.querySelectorAll('input:checked');
+    inputs.forEach(input => {
+      const points = parseInt(input.value) || 0;
+      totalScore += points;
+
+      const category = input.getAttribute('data-cat');
+      if (category && categories.hasOwnProperty(category)) {
+        categories[category] += points;
+      }
+    });
+
+    document.getElementById('quiz-form').classList.add('hidden');
+    document.getElementById('results').classList.remove('hidden');
+
+    document.getElementById('score-val').innerText = totalScore;
+
+    const titleEl = document.getElementById('tier-title');
+    const descEl = document.getElementById('tier-desc');
+
+    if (totalScore <= 5) {
+      titleEl.innerText = "Novice Negotiator";
+      descEl.innerText = "You tend to accept initial offers quickly or feel uncomfortable pushing for market value. Focus on pre-negotiation research, building confidence, and learning key concepts like BATNA.";
+    } else if (totalScore <= 10) {
+      titleEl.innerText = "Developing Negotiator";
+      descEl.innerText = "You have good intuition, but lack structured preparation. Focus on scripting your opening offers, setting firm walk-away points, and exploring non-monetary trade-offs.";
+    } else {
+      titleEl.innerText = "Strategic Negotiator";
+      descEl.innerText = "Outstanding job! You prepare thoroughly using market data, leverage cognitive anchoring, and negotiate collaboratively for mutual value.";
+    }
+
+    updateBar('prep', categories.prep, 5);
+    updateBar('tactics', categories.tactics, 5);
+    updateBar('value', categories.value, 5);
+
+    window.scrollTo(0, 0);
+  });
+
+  function updateBar(cat, score, max) {
+    const displayScore = Math.min(score, max);
+    const percentage = (displayScore / max) * 100;
+    document.getElementById(`${cat}-score`).innerText = `${displayScore} / ${max}`;
+    document.getElementById(`${cat}-bar`).style.width = `${percentage}%`;
+  }
+
+  function resetForm() {
+    document.getElementById('assessment').reset();
+    document.getElementById('results').classList.add('hidden');
+    document.getElementById('quiz-form').classList.remove('hidden');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
